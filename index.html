@@ -94,7 +94,7 @@
         <h2>APEX STORE Admin</h2>
         <p style="font-size: 12px; color: #8892B0; margin-bottom: 15px;">تسجيل الدخول للوحة التحكم</p>
         <input type="text" id="hostUrl" value="http://65.21.143.240:27595" placeholder="رابط السيرفر">
-        <input type="password" id="adminPass" placeholder="كلمة السر الأدمن">
+        <input type="password" id="adminPass" value="Apex18" placeholder="كلمة السر الأدمن">
         <button onclick="login()">دخول اللوحة 🔑</button>
     </div>
 
@@ -142,7 +142,8 @@
             try {
                 const res = await fetch(`${HOST_URL}/api/admin/data`, {
                     method: 'GET',
-                    headers: { 'x-admin-password': ADMIN_PASS }
+                    headers: { 'x-admin-password': ADMIN_PASS },
+                    mode: 'cors'
                 });
 
                 if (res.ok) {
@@ -161,7 +162,8 @@
         async function loadData() {
             try {
                 const res = await fetch(`${HOST_URL}/api/admin/data`, {
-                    headers: { 'x-admin-password': ADMIN_PASS }
+                    headers: { 'x-admin-password': ADMIN_PASS },
+                    mode: 'cors'
                 });
                 const data = await res.json();
 
@@ -195,7 +197,7 @@
             } catch (err) {}
         }
 
-        function updateScriptBtn(prod, status) {
+        async function updateScriptBtn(prod, status) {
             const btn = document.getElementById(`btn-${prod}`);
             if (status) {
                 btn.className = "status-btn status-on";
@@ -211,7 +213,8 @@
             await fetch(`${HOST_URL}/api/admin/toggle-script`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASS },
-                body: JSON.stringify({ product: prod, status: !currentStatus })
+                body: JSON.stringify({ product: prod, status: !currentStatus }),
+                mode: 'cors'
             });
             loadData();
         }
@@ -220,7 +223,8 @@
             await fetch(`${HOST_URL}/api/admin/toggle-key`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASS },
-                body: JSON.stringify({ key: key })
+                body: JSON.stringify({ key: key }),
+                mode: 'cors'
             });
             loadData();
         }
@@ -229,7 +233,8 @@
             await fetch(`${HOST_URL}/api/admin/add-hours`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASS },
-                body: JSON.stringify({ key: key, hours: hours })
+                body: JSON.stringify({ key: key, hours: hours }),
+                mode: 'cors'
             });
             loadData();
         }
@@ -238,7 +243,8 @@
             if (confirm("هل أنت تأكد من إعادة توليد كافة المفاتيح؟")) {
                 await fetch(`${HOST_URL}/api/admin/regenerate`, {
                     method: 'POST',
-                    headers: { 'x-admin-password': ADMIN_PASS }
+                    headers: { 'x-admin-password': ADMIN_PASS },
+                    mode: 'cors'
                 });
                 loadData();
             }
